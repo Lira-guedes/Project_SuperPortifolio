@@ -1,0 +1,12 @@
+{% extends 'base.html' %} {% load static %} {% block title %} User Profile {% endblock %}
+{% block content %}
+<body>
+  <h1>User Profile</h1>
+  <h3>{{ profile.name }}</h3>
+  <div>
+    <p>{{ profile.github }}</p>
+    <p>{{ profile.linkedin }}</p>
+    <p>{{ profile.bio}}</p>
+  </div>
+</body>
+{% endblock %}
