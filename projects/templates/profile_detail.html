@@ -1,12 +1,36 @@
 {% extends 'base.html' %} {% load static %} {% block title %} User Profile {% endblock %}
 {% block content %}
 <body>
-  <h1>User Profile</h1>
-  <h3>{{ profile.name }}</h3>
   <div>
-    <p>{{ profile.github }}</p>
-    <p>{{ profile.linkedin }}</p>
-    <p>{{ profile.bio}}</p>
+    <h1>User Profile</h1>
+    <h3>{{ profile.name }}</h3>
+    <div>
+      <p>{{ profile.github }}</p>
+      <p>{{ profile.linkedin }}</p>
+      <p>{{ profile.bio}}</p>
+    </div>
+  </div>
+  <div>
+    <h1>Projects</h1>
+    <ul>
+      {% for project in profile.projects.all %}
+      <li>{{ project.name }}</li>
+      <li>{{ project.description }}</li>
+      <li>{{ project.github_url }}</li>
+      <li>{{ project.keyword }}</li>
+      <li>{{ project.key_skill }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+  <div>
+    <h1>Certificates</h1>
+    <ul>
+      {% for certificate in profile.certificates.all %}
+      <li>{{ certificate.name }}</li>
+      <li>{{ certificate.certifying_institution }}</li>
+      <li>{{ certificate.timestamp }}</li>
+      {% endfor %}
+    </ul>
   </div>
 </body>
 {% endblock %}

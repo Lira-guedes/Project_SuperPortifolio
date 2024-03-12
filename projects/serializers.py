@@ -1,4 +1,6 @@
-from projects.models import Profile, Project
+from projects.models import (
+    Profile, Project, CertifyingInstitution, Certificate
+)
 from rest_framework import serializers
 
 
@@ -20,3 +22,25 @@ class ProjectSerializer(serializers.ModelSerializer):
             'key_skill',
             'profile',
         )
+
+class CertificateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Certificate
+        fields = "__all__"
+        # fields = ('id', 'name', 'timestamp', 'certifying_institution', 'profiles')
+
+
+class CertifyingInstitutionSerializer(serializers.ModelSerializer):
+    certificates = CertificateSerializer(many=True)
+    class Meta:
+        model = CertifyingInstitution
+        # fields = "__all__"
+        fields = ('id', 'name', 'url', 'certificates')
+        # fields = ["id", "name", "url", "certificates"]
+
+    def create(self, data):
+        certificates = data.pop('certificate_set')
+        institution = CertifyingInstitution.objects.create(**data)
+        for certificate in certificates:
+            Certificate.objects.create(certifying_institution=institution, **certificate)
+        return institution

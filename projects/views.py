@@ -1,6 +1,11 @@
 from rest_framework import viewsets, permissions
-from projects.models import Profile, Project
-from projects.serializers import ProfileSerializer, ProjectSerializer
+from projects.models import (
+    Profile, Project, CertifyingInstitution, Certificate
+)
+from projects.serializers import (
+    ProfileSerializer, ProjectSerializer,
+    CertifyingInstitutionSerializer, CertificateSerializer
+)
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from django.shortcuts import render
 
@@ -11,8 +16,8 @@ class ProfileViewSet(viewsets.ModelViewSet):
 
     def get_permissions(self):
         if self.request.method == "GET":
-            return [permissions.AllowAny()]
-        return [permissions.IsAuthenticated()]
+            return [AllowAny()]
+        return [IsAuthenticated()]
 
     def retrieve(self, request, *args, **kwargs):
         if self.request.method == "GET":
@@ -25,3 +30,13 @@ class ProfileViewSet(viewsets.ModelViewSet):
 class ProjectViewSet(viewsets.ModelViewSet):
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
+
+
+class CertificateViewSet(viewsets.ModelViewSet):
+    queryset = Certificate.objects.all()
+    serializer_class = CertificateSerializer
+
+
+class CertifyingInstitutionViewSet(viewsets.ModelViewSet):
+    queryset = CertifyingInstitution.objects.all()
+    serializer_class = CertifyingInstitutionSerializer
