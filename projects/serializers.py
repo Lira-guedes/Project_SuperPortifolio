@@ -39,8 +39,10 @@ class CertifyingInstitutionSerializer(serializers.ModelSerializer):
         # fields = ["id", "name", "url", "certificates"]
 
     def create(self, data):
-        certificates = data.pop('certificate_set')
+        certificates = data.pop('certificates')
         institution = CertifyingInstitution.objects.create(**data)
         for certificate in certificates:
-            Certificate.objects.create(certifying_institution=institution, **certificate)
+            certificate['certifying_institution'] = institution
+            CertificateSerializer().create(data=certificate)
+            # Certificate.objects.create(certifying_institution=institution, **certificate)
         return institution
